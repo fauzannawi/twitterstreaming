@@ -26,3 +26,7 @@ VM
 - kafka-python 1.35
 - spark1.6.0
 - hadoop2.6.0
+
+##running the script
+First run the spark-structured-streaming.py
+
