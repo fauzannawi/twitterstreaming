@@ -1,11 +1,12 @@
 # twitterstreaming
 ## background
 During my Data Engineering training, the instructor showed an example of Spark Streaming using Twitter API.
-The streaming was done via kafka and the sentiment of the tweets were analyzed using TextBlob library
-I received the API key from Twitter and tried to run the code, but the API replied with error 403. I believe my API key is only for API V2, while the code from the training is based on API v1.1. The tweepy library started supporting twitter API v2 since version 4.0. I tried to upgrade the tweepy at the training VM (running Centos 7) but no cigar. Then, I decided to prepare the environment in Windows and try to make the twitter streaming works.
+The streaming was done via kafka, and the sentiment of the tweets was analysed using the TextBlob library.
+
+I tried to run the code upon receipt of the API key from Twitter, but the API replied with error 403. My API key is only for API V2, while the code from the training is based on API v1.1. Hence, the 403. The tweepy library started supporting Twitter API v2 since version 4.0. I tried to upgrade the tweepy, as well as the other packages in the training VM (running Centos 7) but no cigar. The VM was unsurprisingly sluggish, mainly due to my laptop's limitations. Hence, I decided to prepare the environment in Windows and try to make the Twitter streaming works.
 
 ##environment
-Below are the versions running in  my pc
+Below are the versions running on my pc
 
 Windows
 - conda 22.9.0
@@ -28,5 +29,14 @@ VM
 - hadoop2.6.0
 
 ##running the script
-First run the spark-structured-streaming.py
+1. Setup Kafka zookeeper, kafka server, producer and receiver.
+2. Run structured_streaming_twitter.py in pyspark. Be sure that the API key is entered in the script. Default keyword for tweets streaming is "bitcoin".
 
+`spark-submit structured_streaming_twitter.py`
+
+3.Run structured_streaming_SA.py
+
+`spark-submit --packages org.apache.spark:spark-sql-kafka-0-10_2.12:3.3.0  structured_streaming_SA.py`
+
+##to-do
+1. Processing using foreach method instead of writing to the table and covert to RDD. I managed to do the sentiment analysis using foreach, however, unable to sums all the results from each epoch. Need to learn more about object serialization and deserialization.
